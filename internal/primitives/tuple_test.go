@@ -1,4 +1,4 @@
-package tuple_test
+package primitives_test
 
 import (
 	"log"
