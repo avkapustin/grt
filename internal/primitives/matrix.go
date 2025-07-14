@@ -61,33 +61,33 @@ func (m Matrix4) String() string {
 
 func (m Matrix4) Mul(o Matrix4) Matrix4 {
 	return Matrix4{
-		m.M00 * o.M00 + m.M01 * o.M10 + m.M02 * o.M20 + m.M03 * o.M30,
-		m.M00 * o.M01 + m.M01 * o.M11 + m.M02 * o.M21 + m.M03 * o.M31,
-		m.M00 * o.M02 + m.M01 * o.M12 + m.M02 * o.M22 + m.M03 * o.M32,
-		m.M00 * o.M03 + m.M01 * o.M13 + m.M02 * o.M23 + m.M03 * o.M33,
+		m.M00*o.M00 + m.M01*o.M10 + m.M02*o.M20 + m.M03*o.M30,
+		m.M00*o.M01 + m.M01*o.M11 + m.M02*o.M21 + m.M03*o.M31,
+		m.M00*o.M02 + m.M01*o.M12 + m.M02*o.M22 + m.M03*o.M32,
+		m.M00*o.M03 + m.M01*o.M13 + m.M02*o.M23 + m.M03*o.M33,
 
-		m.M10 * o.M00 + m.M11 * o.M10 + m.M12 * o.M20 + m.M13 * o.M30,
-		m.M10 * o.M01 + m.M11 * o.M11 + m.M12 * o.M21 + m.M13 * o.M31,
-		m.M10 * o.M02 + m.M11 * o.M12 + m.M12 * o.M22 + m.M13 * o.M32,
-		m.M10 * o.M03 + m.M11 * o.M13 + m.M12 * o.M23 + m.M13 * o.M33,
+		m.M10*o.M00 + m.M11*o.M10 + m.M12*o.M20 + m.M13*o.M30,
+		m.M10*o.M01 + m.M11*o.M11 + m.M12*o.M21 + m.M13*o.M31,
+		m.M10*o.M02 + m.M11*o.M12 + m.M12*o.M22 + m.M13*o.M32,
+		m.M10*o.M03 + m.M11*o.M13 + m.M12*o.M23 + m.M13*o.M33,
 
-		m.M20 * o.M00 + m.M21 * o.M10 + m.M22 * o.M20 + m.M23 * o.M30,
-		m.M20 * o.M01 + m.M21 * o.M11 + m.M22 * o.M21 + m.M23 * o.M31,
-		m.M20 * o.M02 + m.M21 * o.M12 + m.M22 * o.M22 + m.M23 * o.M32,
-		m.M20 * o.M03 + m.M21 * o.M13 + m.M22 * o.M23 + m.M23 * o.M33,
+		m.M20*o.M00 + m.M21*o.M10 + m.M22*o.M20 + m.M23*o.M30,
+		m.M20*o.M01 + m.M21*o.M11 + m.M22*o.M21 + m.M23*o.M31,
+		m.M20*o.M02 + m.M21*o.M12 + m.M22*o.M22 + m.M23*o.M32,
+		m.M20*o.M03 + m.M21*o.M13 + m.M22*o.M23 + m.M23*o.M33,
 
-		m.M30 * o.M00 + m.M31 * o.M10 + m.M32 * o.M20 + m.M33 * o.M30,
-		m.M30 * o.M01 + m.M31 * o.M11 + m.M32 * o.M21 + m.M33 * o.M31,
-		m.M30 * o.M02 + m.M31 * o.M12 + m.M32 * o.M22 + m.M33 * o.M32,
-		m.M30 * o.M03 + m.M31 * o.M13 + m.M32 * o.M23 + m.M33 * o.M33,
+		m.M30*o.M00 + m.M31*o.M10 + m.M32*o.M20 + m.M33*o.M30,
+		m.M30*o.M01 + m.M31*o.M11 + m.M32*o.M21 + m.M33*o.M31,
+		m.M30*o.M02 + m.M31*o.M12 + m.M32*o.M22 + m.M33*o.M32,
+		m.M30*o.M03 + m.M31*o.M13 + m.M32*o.M23 + m.M33*o.M33,
 	}
 }
 
 func (m Matrix4) MulTuple(o Tuple4) Tuple4 {
 	return Tuple4{
-		m.M00 * o.X + m.M01 * o.Y + m.M02 * o.Z + m.M03 * o.W,
-		m.M10 * o.X + m.M11 * o.Y + m.M12 * o.Z + m.M13 * o.W,
-		m.M20 * o.X + m.M21 * o.Y + m.M22 * o.Z + m.M23 * o.W,
-		m.M30 * o.X + m.M31 * o.Y + m.M32 * o.Z + m.M33 * o.W,
+		m.M00*o.X + m.M01*o.Y + m.M02*o.Z + m.M03*o.W,
+		m.M10*o.X + m.M11*o.Y + m.M12*o.Z + m.M13*o.W,
+		m.M20*o.X + m.M21*o.Y + m.M22*o.Z + m.M23*o.W,
+		m.M30*o.X + m.M31*o.Y + m.M32*o.Z + m.M33*o.W,
 	}
 }
