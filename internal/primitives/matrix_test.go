@@ -37,3 +37,32 @@ func TestMatrixMul(t *testing.T) {
 		t.Error(ma, p, actual)
 	}
 }
+
+func TestInverseMatrix(t *testing.T) {
+	mS := `| 8 | -5 | 9 | 2 |
+| 7 | 5 | 6 | 1 |
+| -6 | 0 | 9 | 6 |
+| -3 | 0 | -9 | -4 |`
+
+	ma, err := primitives.MatrixFromString(mS)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	inv, err := ma.InverseMatrix()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !primitives.EqualWithEps(inv.M00, -0.15384616) {
+		t.Error(ma, inv, err, inv.M00)
+	}
+
+	mb := ma.Mul(inv)
+	if !primitives.EqualWithEps(mb.M00, 1.0) {
+		t.Error(mb)
+	}
+	if !primitives.EqualWithEps(mb.M10, 0.0) {
+		t.Error(mb)
+	}
+}
