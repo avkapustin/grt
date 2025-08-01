@@ -275,3 +275,20 @@ func RotateZMatrix(a float32) Matrix4 {
 	result.M11 = cosA
 	return result
 }
+
+// Shearing matrix
+// ??? Scale coordinate in proportion with other coordinates
+// 1 xy xz 0
+// yx 1 yz 0
+// zx zy 1 0
+// 0 0 0 1
+func ShearingMatrix(xy, xz, yx, yz, zx, zy float32) Matrix4 {
+	result := IdentityMatrix()
+	result.M10 = yx
+	result.M20 = zx
+	result.M01 = xy
+	result.M21 = zy
+	result.M02 = xz
+	result.M12 = yz
+	return result
+}
