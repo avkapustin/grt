@@ -2,6 +2,7 @@ package primitives
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"strconv"
 	"strings"
@@ -192,4 +193,85 @@ func (m Matrix4) InverseMatrix() (Matrix4, error) {
 		minors33[2] / det, -minors33[6] / det, minors33[10] / det, -minors33[14] / det,
 		-minors33[3] / det, minors33[7] / det, -minors33[11] / det, minors33[15] / det,
 	}, nil
+}
+
+// Move point/vector by x,y,z
+// 1 0 0 x
+// 0 1 0 y
+// 0 0 1 z
+// 0 0 0 1
+func TranslationMatrix(x, y, z float32) Matrix4 {
+	result := IdentityMatrix()
+	result.M03 = x
+	result.M13 = y
+	result.M23 = z
+	return result
+}
+
+// Scale by x,y,z
+// x 0 0 0
+// 0 y 0 0
+// 0 0 z 0
+// 0 0 0 1
+// special case - reflection (if x,y or z is -1)
+func ScalingMatrix(x, y, z float32) Matrix4 {
+	result := IdentityMatrix()
+	result.M00 = x
+	result.M11 = y
+	result.M22 = z
+	return result
+}
+
+// Rotation matricies
+// angle - left-handed
+
+// Rotate on x axis
+// 1 0 0 0
+// 0 cos -sin 0
+// 0 sin cos 0
+// 0 0 0 1
+// a - angle (radians)
+func RotateXMatrix(a float32) Matrix4 {
+	sinA := float32(math.Sin(float64(a)))
+	cosA := float32(math.Cos(float64(a)))
+	result := IdentityMatrix()
+	result.M11 = cosA
+	result.M12 = -sinA
+	result.M21 = sinA
+	result.M22 = cosA
+	return result
+}
+
+// Rotate on y axis
+// cos 0 sin 0
+// 0 1 0 0
+// -sin 0 cos 0
+// 0 0 0 1
+// a - angle (radians)
+func RotateYMatrix(a float32) Matrix4 {
+	sinA := float32(math.Sin(float64(a)))
+	cosA := float32(math.Cos(float64(a)))
+	result := IdentityMatrix()
+	result.M00 = cosA
+	result.M20 = -sinA
+	result.M02 = sinA
+	result.M22 = cosA
+	return result
+}
+
+// Rotate on z axis
+// cos -sin 0 0
+// sin cos 0 0
+// 0 0 1 0
+// 0 0 0 1
+// a - angle (radians)
+func RotateZMatrix(a float32) Matrix4 {
+	sinA := float32(math.Sin(float64(a)))
+	cosA := float32(math.Cos(float64(a)))
+	result := IdentityMatrix()
+	result.M00 = cosA
+	result.M01 = -sinA
+	result.M10 = sinA
+	result.M11 = cosA
+	return result
 }

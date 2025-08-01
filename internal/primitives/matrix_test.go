@@ -54,10 +54,16 @@ func TestInverseMatrix(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// inv matrix should looks like
+	// | -0.15385 | -0.15385 | -0.28205 | -0.53846 |
+	// | -0.07692 | 0.12308 | 0.02564 | 0.03077 |
+	// | 0.35897 | 0.35897 | 0.43590 | 0.92308 |
+	// | -0.69231 | -0.69231 | -0.76923 | -1.92308 |
 	if !primitives.EqualWithEps(inv.M00, -0.15384616) {
 		t.Error(ma, inv, err, inv.M00)
 	}
 
+	// A * Inv(A) = Identity matrix
 	mb := ma.Mul(inv)
 	if !primitives.EqualWithEps(mb.M00, 1.0) {
 		t.Error(mb)
