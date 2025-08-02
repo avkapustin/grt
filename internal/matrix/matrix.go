@@ -1,4 +1,4 @@
-package primitives
+package matrix
 
 import (
 	"fmt"
@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+
+	p "github.com/avkapustin/grt/internal/primitives"
 )
 
 // matrix - column vs row  ordered in terms of performance
@@ -84,12 +86,12 @@ func (m Matrix4) Mul(o Matrix4) Matrix4 {
 	}
 }
 
-func (m Matrix4) MulTuple(o Tuple4) Tuple4 {
-	return Tuple4{
-		m.M00*o.X + m.M01*o.Y + m.M02*o.Z + m.M03*o.W,
-		m.M10*o.X + m.M11*o.Y + m.M12*o.Z + m.M13*o.W,
-		m.M20*o.X + m.M21*o.Y + m.M22*o.Z + m.M23*o.W,
-		m.M30*o.X + m.M31*o.Y + m.M32*o.Z + m.M33*o.W,
+func (m Matrix4) MulTuple(o p.Tuple4) p.Tuple4 {
+	return p.Tuple4{
+		X: m.M00*o.X + m.M01*o.Y + m.M02*o.Z + m.M03*o.W,
+		Y: m.M10*o.X + m.M11*o.Y + m.M12*o.Z + m.M13*o.W,
+		Z: m.M20*o.X + m.M21*o.Y + m.M22*o.Z + m.M23*o.W,
+		W: m.M30*o.X + m.M31*o.Y + m.M32*o.Z + m.M33*o.W,
 	}
 }
 
@@ -178,7 +180,7 @@ func (m Matrix4) InverseMatrix() (Matrix4, error) {
 	minors22 := matrixMinors22(m)
 	minors33 := matrixMinors33(m, minors22)
 	det := det(m, minors33)
-	if EqualWithEps(det, 0) {
+	if p.EqualWithEps(det, 0) {
 		return Matrix4{}, fmt.Errorf("Cannot inverse matrix %s, determinant 0\n", m)
 	}
 

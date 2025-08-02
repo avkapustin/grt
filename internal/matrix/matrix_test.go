@@ -1,9 +1,10 @@
-package primitives_test
+package matrix_test
 
 import (
 	"testing"
 
-	"github.com/avkapustin/grt/internal/primitives"
+	m "github.com/avkapustin/grt/internal/matrix"
+	p "github.com/avkapustin/grt/internal/primitives"
 )
 
 func TestMatrixMul(t *testing.T) {
@@ -17,11 +18,11 @@ func TestMatrixMul(t *testing.T) {
 | 2 | 4 | 8 | 16 |
 | 4 | 8 | 16 | 32 |`
 
-	ma, err := primitives.MatrixFromString(maS)
+	ma, err := m.MatrixFromString(maS)
 	if err != nil {
 		t.Fatal(err)
 	}
-	mb, err := primitives.MatrixFromString(mbS)
+	mb, err := m.MatrixFromString(mbS)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -31,7 +32,7 @@ func TestMatrixMul(t *testing.T) {
 		t.Error(ma, mb, actual)
 	}
 
-	p := primitives.MakePoint(1, 2, 3)
+	p := p.MakePoint(1, 2, 3)
 	actualP := ma.MulTuple(p)
 	if actualP.X != 18 {
 		t.Error(ma, p, actual)
@@ -44,7 +45,7 @@ func TestInverseMatrix(t *testing.T) {
 | -6 | 0 | 9 | 6 |
 | -3 | 0 | -9 | -4 |`
 
-	ma, err := primitives.MatrixFromString(mS)
+	ma, err := m.MatrixFromString(mS)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -59,16 +60,16 @@ func TestInverseMatrix(t *testing.T) {
 	// | -0.07692 | 0.12308 | 0.02564 | 0.03077 |
 	// | 0.35897 | 0.35897 | 0.43590 | 0.92308 |
 	// | -0.69231 | -0.69231 | -0.76923 | -1.92308 |
-	if !primitives.EqualWithEps(inv.M00, -0.15384616) {
+	if !p.EqualWithEps(inv.M00, -0.15384616) {
 		t.Error(ma, inv, err, inv.M00)
 	}
 
 	// A * Inv(A) = Identity matrix
 	mb := ma.Mul(inv)
-	if !primitives.EqualWithEps(mb.M00, 1.0) {
+	if !p.EqualWithEps(mb.M00, 1.0) {
 		t.Error(mb)
 	}
-	if !primitives.EqualWithEps(mb.M10, 0.0) {
+	if !p.EqualWithEps(mb.M10, 0.0) {
 		t.Error(mb)
 	}
 }
