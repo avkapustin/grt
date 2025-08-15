@@ -73,3 +73,19 @@ func TestInverseMatrix(t *testing.T) {
 		t.Error(mb)
 	}
 }
+
+func TestFastSRTInverseMatrix(t *testing.T) {
+	ma := m.RotateXMatrix(3.14 / 4)
+	mi, err := ma.FastInverseSRTMatrix()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mb := ma.Mul(mi)
+	if !p.EqualWithEps(mb.M00, 1.0) {
+		t.Error(mb)
+	}
+	if !p.EqualWithEps(mb.M10, 0.0) {
+		t.Error(mb)
+	}
+}

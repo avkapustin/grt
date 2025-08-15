@@ -197,6 +197,42 @@ func (m Matrix4) InverseMatrix() (Matrix4, error) {
 	}, nil
 }
 
+// Fast inversion for SRT matrices (scale, rotate, translate)
+// M T
+// 0 1
+// where M 3x3 and T - translation vector
+// result looks like
+// M(-1) -M(-1)T
+// 0     1
+// further optimization for ortonormal matricies (where M(-1) = M(T)) will be implemented later
+func (m Matrix4) FastInverseSRTMatrix() (Matrix4, error) {
+	r := Matrix4{}
+	// I don't want to add another 3x3 type for matrix, so we split 4x4 calc to phases with in-place calcs
+	// phase 1 - fill M part
+	// m00 m01 m02
+	// m10 m11 m12
+	// m20 m21 m22
+	det3 := m.M00*(m.M11*m.M22-m.M12*m.M21) - m.M10*(m.M01*m.M22-m.M02*m.M21) + m.M20*(m.M01*m.M12-m.M02*m.M11)
+	r.M00 = (m.M11*m.M22 - m.M12*m.M21) / det3
+	r.M10 = -(m.M10*m.M22 - m.M12*m.M20) / det3
+	r.M20 = (m.M10*m.M21 - m.M11*m.M20) / det3
+	r.M01 = -(m.M01*m.M22 - m.M02*m.M21) / det3
+	r.M11 = (m.M00*m.M22 - m.M02*m.M20) / det3
+	r.M21 = -(m.M00*m.M21 - m.M01*m.M20) / det3
+	r.M02 = (m.M01*m.M12 - m.M02*m.M11) / det3
+	r.M12 = -(m.M00*m.M12 - m.M02*m.M10) / det3
+	r.M22 = (m.M00*m.M11 - m.M01*m.M10) / det3
+
+	// phase 2 - fill T part
+
+	r.M03 = -r.M00*m.M03 - r.M01*m.M13 - r.M02*m.M23
+	r.M13 = -r.M10*m.M03 - r.M11*m.M13 - r.M12*m.M23
+	r.M23 = -r.M20*m.M03 - r.M21*m.M13 - r.M22*m.M23
+
+	r.M33 = 1
+	return r, nil
+}
+
 // Move point/vector by x,y,z
 // 1 0 0 x
 // 0 1 0 y
