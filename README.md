@@ -13,7 +13,10 @@ Purposes:
 
 # todos
 
-+ add support for ppm file format - a primitive way to see results
-+ add fast inversion path for SRT matrices (see org doc - matrix inversion for details)
 - add perf test to compare matrix inversion alogrithms
 - add testify package to simplify asserts
+
+## done
+
++ add support for ppm file format - a primitive way to see results
++ add fast inversion path for SRT matrices (see org doc - matrix inversion for details)

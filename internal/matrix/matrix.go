@@ -54,7 +54,7 @@ func (m Matrix4) String() string {
 	for ri := range 4 {
 		for ci := range 4 {
 			fieldName := fmt.Sprintf("M%d%d", ri, ci)
-			sb.WriteString(fmt.Sprintf("| %.5f ", matrix.FieldByName(fieldName).Float()))
+			sb.WriteString(fmt.Sprintf("| %.6f ", matrix.FieldByName(fieldName).Float()))
 		}
 		sb.WriteString("|\n")
 	}
@@ -165,7 +165,7 @@ func matrixMinors33(m Matrix4, minors22 map[string]float32) []float32 {
 	minors[10] = m.M00*minors22["5-15"] - m.M10*minors22["4-15"] + m.M30*minors22["4-13"]
 	minors[11] = m.M00*minors22["5-14"] - m.M10*minors22["4-14"] + m.M20*minors22["4-13"]
 	minors[12] = m.M10*minors22["6-11"] - m.M20*minors22["5-11"] + m.M30*minors22["5-10"]
-	minors[13] = m.M00*minors22["6-11"] - m.M20*minors22["4-11"] + m.M30*minors22["4-9"]
+	minors[13] = m.M00*minors22["6-11"] - m.M20*minors22["4-11"] + m.M30*minors22["4-10"]
 	minors[14] = m.M00*minors22["5-11"] - m.M10*minors22["4-11"] + m.M30*minors22["4-9"]
 	minors[15] = m.M00*minors22["5-10"] - m.M10*minors22["4-10"] + m.M20*minors22["4-9"]
 
