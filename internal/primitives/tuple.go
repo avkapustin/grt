@@ -6,6 +6,11 @@ type Tuple4 struct {
 	X, Y, Z, W float32
 }
 
+type Ray struct {
+	Origin    Tuple4
+	Direction Tuple4
+}
+
 func MakeVector(x, y, z float32) Tuple4 {
 	return Tuple4{
 		x,
@@ -86,4 +91,8 @@ func (t Tuple4) Cross(o Tuple4) Tuple4 {
 		t.X*o.Y - t.Y*o.X,
 		0.0,
 	}
+}
+
+func (r Ray) Position(distance float32) Tuple4 {
+	return r.Origin.Add(r.Direction.Scale(distance))
 }

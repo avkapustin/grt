@@ -5,25 +5,74 @@ import (
 
 	m "github.com/avkapustin/grt/internal/matrix"
 	p "github.com/avkapustin/grt/internal/primitives"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func isMatrixEqual(a m.Matrix4, b m.Matrix4) bool {
-	return p.EqualWithEps(a.M00, b.M00) &&
-		p.EqualWithEps(a.M10, b.M10) &&
-		p.EqualWithEps(a.M20, b.M20) &&
-		p.EqualWithEps(a.M30, b.M30) &&
-		p.EqualWithEps(a.M01, b.M01) &&
-		p.EqualWithEps(a.M11, b.M11) &&
-		p.EqualWithEps(a.M21, b.M21) &&
-		p.EqualWithEps(a.M31, b.M31) &&
-		p.EqualWithEps(a.M02, b.M02) &&
-		p.EqualWithEps(a.M12, b.M12) &&
-		p.EqualWithEps(a.M22, b.M22) &&
-		p.EqualWithEps(a.M32, b.M32) &&
-		p.EqualWithEps(a.M03, b.M03) &&
-		p.EqualWithEps(a.M13, b.M13) &&
-		p.EqualWithEps(a.M23, b.M23) &&
-		p.EqualWithEps(a.M33, b.M33)
+func checkMatrixEquality(t *testing.T, expected m.Matrix4, actual m.Matrix4) {
+	assert.InDeltaf(t, expected.M00, actual.M00, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M00, expected %.6f, actual %.6f",
+		expected, actual, expected.M00, actual.M00)
+
+	assert.InDeltaf(t, expected.M10, actual.M10, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M10, expected %.6f, actual %.6f",
+		expected, actual, expected.M10, actual.M10)
+
+	assert.InDeltaf(t, expected.M20, actual.M20, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M20, expected %.6f, actual %.6f",
+		expected, actual, expected.M20, actual.M20)
+
+	assert.InDeltaf(t, expected.M30, actual.M30, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M30, expected %.6f, actual %.6f",
+		expected, actual, expected.M30, actual.M30)
+
+	assert.InDeltaf(t, expected.M01, actual.M01, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M01, expected %.6f, actual %.6f",
+		expected, actual, expected.M01, actual.M01)
+
+	assert.InDeltaf(t, expected.M11, actual.M11, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M11, expected %.6f, actual %.6f",
+		expected, actual, expected.M11, actual.M11)
+
+	assert.InDeltaf(t, expected.M21, actual.M21, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M21, expected %.6f, actual %.6f",
+		expected, actual, expected.M21, actual.M21)
+
+	assert.InDeltaf(t, expected.M31, actual.M31, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M31, expected %.6f, actual %.6f",
+		expected, actual, expected.M31, actual.M31)
+
+	assert.InDeltaf(t, expected.M02, actual.M02, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M02, expected %.6f, actual %.6f",
+		expected, actual, expected.M02, actual.M02)
+
+	assert.InDeltaf(t, expected.M12, actual.M12, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M12, expected %.6f, actual %.6f",
+		expected, actual, expected.M12, actual.M12)
+
+	assert.InDeltaf(t, expected.M22, actual.M22, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M22, expected %.6f, actual %.6f",
+		expected, actual, expected.M22, actual.M22)
+
+	assert.InDeltaf(t, expected.M32, actual.M32, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M32, expected %.6f, actual %.6f",
+		expected, actual, expected.M32, actual.M32)
+
+	assert.InDeltaf(t, expected.M03, actual.M03, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M03, expected %.6f, actual %.6f",
+		expected, actual, expected.M03, actual.M03)
+
+	assert.InDeltaf(t, expected.M13, actual.M13, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M13, expected %.6f, actual %.6f",
+		expected, actual, expected.M13, actual.M13)
+
+	assert.InDeltaf(t, expected.M23, actual.M23, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M23, expected %.6f, actual %.6f",
+		expected, actual, expected.M23, actual.M23)
+
+	assert.InDeltaf(t, expected.M33, actual.M33, 0.00001,
+		"expected matrix %s\nactual matrix %s\nfield M33, expected %.6f, actual %.6f",
+		expected, actual, expected.M33, actual.M33)
 }
 
 func TestMatrixMul(t *testing.T) {
@@ -44,15 +93,11 @@ func TestMatrixMul(t *testing.T) {
 	}
 
 	actual := ma.Mul(mb)
-	if !p.EqualWithEps(actual.M10, 31) {
-		t.Error(ma, mb, actual)
-	}
+	assert.InDelta(t, 31, actual.M10, 0.00001)
 
 	point := p.MakePoint(1, 2, 3)
 	actualP := ma.MulTuple(point)
-	if !p.EqualWithEps(actualP.X, 18) {
-		t.Error(ma, point, actualP)
-	}
+	assert.InDelta(t, 18, actualP.X, 0.00001)
 }
 
 func TestInverseMatrix(t *testing.T) {
@@ -78,15 +123,11 @@ func TestInverseMatrix(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if !isMatrixEqual(inv, mInvExpected) {
-		t.Errorf("Error in inv matrix, source \n%s\n, got \n%s\n, expected \n%s\n", ma, inv, mInvExpected)
-	}
-
+	checkMatrixEquality(t, mInvExpected, inv)
 	// A * Inv(A) = Identity matrix
 	mb := ma.Mul(inv)
-	if !isMatrixEqual(mb, m.IdentityMatrix()) {
-		t.Errorf("a * inv(a) == identity matrix, got %s", mb)
-	}
+
+	checkMatrixEquality(t, m.IdentityMatrix(), mb)
 }
 
 func TestFastSRTInverseMatrix(t *testing.T) {
@@ -97,16 +138,13 @@ func TestFastSRTInverseMatrix(t *testing.T) {
 	}
 
 	mb := ma.Mul(mi)
-	if !isMatrixEqual(mb, m.IdentityMatrix()) {
-		t.Errorf("a * inv(a) == identity matrix, got %s", mb)
-	}
+
+	checkMatrixEquality(t, m.IdentityMatrix(), mb)
 
 	miClassic, err := ma.InverseMatrix()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !isMatrixEqual(mi, miClassic) {
-		t.Errorf("Inverse matrix for classic and fast SRT should be equal, fast \n%s\n, classic \n%s\n", mi, miClassic)
-	}
+	checkMatrixEquality(t, mi, miClassic)
 }
